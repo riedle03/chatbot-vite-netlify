@@ -23,6 +23,12 @@ async function fetchGPTResponse(prompt) {
   return data.choices[0].message.content;
 }
 
+userInput.addEventListener('keydown', async (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault(); // 엔터키의 기본 동작 방지
+    sendBtn.click(); // sendBtn 클릭 이벤트 트리거
+  }
+});
 
 sendBtn.addEventListener('click', async () => {
   const prompt = userInput.value;
