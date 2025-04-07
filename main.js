@@ -22,6 +22,7 @@ async function fetchGPTResponse(prompt) {
   const data = await response.json();
   return data.choices[0].message.content;
 }
+const chatHistory = document.getElementById('chatHistory');
 
 userInput.addEventListener('keydown', async (event) => {
   if (event.key === 'Enter') {
@@ -34,13 +35,16 @@ sendBtn.addEventListener('click', async () => {
   const prompt = userInput.value;
   if (!prompt) return;
 
-
   chatbox.innerHTML += `<div class="text-right mb-2 text-blue-600">나: ${prompt}</div>`;
   userInput.value = '';
   chatbox.scrollTop = chatbox.scrollHeight;
 
-
   const reply = await fetchGPTResponse(prompt);
   chatbox.innerHTML += `<div class="text-left mb-2 text-gray-800">GPT: ${reply}</div>`;
   chatbox.scrollTop = chatbox.scrollHeight;
+
+  // 대화 목록에 추가
+  chatHistory.innerHTML += `<div class="text-gray-600 mb-1">나: ${prompt}</div>`;
+  chatHistory.innerHTML += `<div class="text-gray-800 mb-2">GPT: ${reply}</div>`;
+  chatHistory.scrollTop = chatHistory.scrollHeight;
 });
